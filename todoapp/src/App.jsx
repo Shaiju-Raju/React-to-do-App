@@ -1,22 +1,20 @@
 import { useState } from 'react'
 import './App.css'
+import CreateArea from './Components/CreateArea'
 
 function App() {
 
-  const [item, setItem] = useState("")
+
   const [toDos, setToDos] = useState([])
 
-  function addItem() {
+  function addItem(item) {
     setToDos((prevValue) => (
       [...prevValue, item]
     ))
-    setItem("")
+
   }
 
-  function handleChange (event) {
-    const newValue = event.target.value
-    setItem(newValue)
-  }
+
 
   function editItem () {
     console.log("Clicked Edit Item")
@@ -36,15 +34,7 @@ function App() {
     <>
       <div className="container">
        <h2 className="todo-title" >To Do List</h2>
-            <div className="todo-header">
-                 <input 
-                 onChange={handleChange}
-                 value={item}
-                 type="text"
-                 placeholder="Enter To Do Item Here"
-                 id="todo-input" />
-                <button onClick={addItem} id="add-btn">Add Now</button>
-             </div>
+        <CreateArea onAdd={addItem} />
 
          <ul className="todo-items-list" id="todo-items-list">
           {toDos.map((toDoItem, index) => (
