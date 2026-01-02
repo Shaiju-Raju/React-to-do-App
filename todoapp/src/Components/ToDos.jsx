@@ -4,8 +4,10 @@ export default function ToDos(props) {
             <li>
                 <span className="item-text">{props.toDo}</span>
                 <span className="item-actions">
-                    <i className="fas fa-edit"></i>
-
+                    <i 
+                        onClick={() => props.onEdit(props.id)}
+                        className="fas fa-edit">
+                    </i>
                     <i
                         onClick={() => props.onDelete(props.id)}
                         className="fas fa-trash"

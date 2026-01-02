@@ -20,6 +20,17 @@ function App() {
     );
   }
 
+  function editItem(id) {
+    const newValue = prompt("Enter New Value",toDos[id])
+    if(newValue === null || newValue.trim() === "") return;
+
+    setToDos((prevValue) => 
+      prevValue.map((item,index) => 
+        index === id ? newValue : item
+    
+      ))
+
+  }
 
 
 
@@ -34,6 +45,7 @@ function App() {
             key={index}
             id={index}
             onDelete={deleteItem}
+            onEdit={editItem}
           />
         ))}
       </div>
