@@ -2,6 +2,7 @@ import { useState,useEffect } from 'react';
 import './App.css';
 import CreateArea from './Components/CreateArea';
 import ToDos from './Components/ToDos';
+import API_URL from './api';
 
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
   //Fetching data from API
   useEffect( () => {
     async function loadTodos() {
-      const res = await fetch("http://localhost:3000/todos");
+      const res = await fetch(`${API_URL}/todos`);
       const data = await res.json();
       setToDos(data);
     }
@@ -24,7 +25,7 @@ function App() {
    async function addItem(item) {
     if(item.trim() === "") return;
 
-    const res = await fetch("http://localhost:3000/todos", {
+    const res = await fetch(`${API_URL}/todos`, {
       method: "POST",
       headers: {
         "content-type" : "application/json"
@@ -38,7 +39,7 @@ function App() {
 
 //Delete an Item from Todos
  async function deleteItem(id) {
-  const res = await fetch(`http://localhost:3000/todos/${id}`, {
+  const res = await fetch(`${API_URL}/todos/${id}`, {
     method: "DELETE"
   });
 
@@ -52,7 +53,7 @@ function App() {
 
     if(newValue === null || newValue.trim() === "") return;
 
-    const res = await fetch(`http://localhost:3000/todos/${id}`, {
+    const res = await fetch(`${API_URL}/todos/${id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json"
