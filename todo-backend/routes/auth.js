@@ -43,4 +43,46 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+
+router.post("/login", async (req, res) => {
+    try{
+        const {email, password} = req.body;
+
+        //1. Validation
+        if(!email || !password) {
+            return res.status(400).json({error: "Email Password are Require"});
+        }
+
+        //2. Find User
+        const result = await pool.query("SELECT * FROM users WHERE email = $1",[email]);
+
+        const user = result.rows[0];
+
+        //3. Compare password
+        const isMatch = bcrypt.compare(password, user.password);
+
+        if(!isMatch) {
+            return res.status(401).json({error: "Invalid Credentials"});
+        }
+
+        //4. Generate JWT
+        const token = jwt.sign(
+            {userId: user.id, email: user.email},
+            process.env.JWT_SECRET,
+            {expiresIn: "1d"}
+        )
+
+        //5. Response
+        res.json({
+            message: "Login Successful",
+            token,
+            user : {id: user.id, email: user.email}
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({error: "Login failed"});
+    }
+
+})
+
 export default router;
